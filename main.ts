@@ -1,12 +1,39 @@
-radio.setGroup(20); // Sæt radio-gruppe (kanal)
-serial.redirectToUSB(); // Videresend data til USB
+radio.setGroup(1)
+serial.redirectToUSB()
 
+radio.onReceivedNumber(function (receivedNumber) {
+    serial.writeNumber(receivedNumber)
+    basic.showNumber(receivedNumber)
+    basic.pause(100)
+    basic.clearScreen()
+})
+
+radio.onReceivedString(function (receivedString) {
+    serial.writeLine(receivedString)
+    basic.showIcon(IconNames.Yes)
+    basic.pause(100)
+    basic.clearScreen()
+})
+radio.onReceivedValue(function (name, value) {
+    serial.writeValue(name, value)
+    basic.showIcon(IconNames.Happy)
+    basic.pause(100)
+    basic.clearScreen()
+})
+
+let received = ""
+// Videresend data til USB
 basic.forever(function () {
-    let received = radio.receiveString(); // Modtag data via radio
-    if (received) {
-        serial.writeLine(received); // Send data til USB
-        basic.showIcon(IconNames.Yes); // Vis bekræftelsesikon
-        basic.pause(100); // Undgå overbelastning
-        basic.clearScreen(); // Fjern ikon
-    }
-});
+    // // Modtag data via radio
+    // received = radio.receiveString()
+    // if (received) {
+    //     // Send data til USB
+    //     serial.writeLine(received)
+    //     // Vis bekræftelsesikon
+    //     basic.showIcon(IconNames.Yes)
+    //     // Undgå overbelastning
+    //     basic.pause(100)
+    //     // Fjern ikon
+    //     basic.clearScreen()
+    // }
+})
